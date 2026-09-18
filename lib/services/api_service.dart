@@ -28,9 +28,8 @@ class ApiService {
   final http.Client _client;
   final String _apiKey;
 
-  ApiService({required String apiKey, http.Client? client})
-    : _apiKey = apiKey,
-      _client = client ?? http.Client();
+  ApiService({required this._apiKey, http.Client? client})
+    : _client = client ?? http.Client();
 
   Future<List<WallpaperModel>> fetchCurated({required int page}) async {
     final uri = Uri.parse(

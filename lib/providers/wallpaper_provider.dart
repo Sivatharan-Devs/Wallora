@@ -21,8 +21,7 @@ enum ViewState { idle, loading, loadingMore, error }
 class WallpaperProvider extends ChangeNotifier {
   final ApiService _apiService;
 
-  WallpaperProvider({required ApiService apiService})
-    : _apiService = apiService;
+  WallpaperProvider({required this._apiService});
 
   // --- Private mutable state ---
   final List<WallpaperModel> _wallpapers = [];
