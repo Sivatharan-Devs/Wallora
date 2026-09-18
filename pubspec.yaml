@@ -2,7 +2,7 @@ name: wallora
 description: "A new Flutter project."
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
-publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+publish_to: "none" # Remove this line if you wish to publish to pub.dev
 
 # The following defines the version and build number for your application.
 # A version number is three numbers separated by dots, like 1.2.43
@@ -34,12 +34,23 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.8
+  # Networking. We keep this thin and put all usage behind ApiService
+  # so it could be swapped for dio later without touching the UI.
   http: ^1.6.0
+  # State management: exposes app state to the widget tree without
+  # threading callbacks through every constructor (see providers/).
   provider: ^6.1.5+1
+  # Disk + memory image caching with placeholder/error builders built in.
+  # Replaces the raw Image.network calls from the original app.
   cached_network_image: ^4.0.0
   flutter_cache_manager: ^3.4.4
+  # Loads secrets from a local .env file instead of hardcoding them
+  # in source — see main.dart for how it's loaded.
   flutter_dotenv: ^6.0.1
+  # Android: sets the actual home/lock screen wallpaper.
   wallpaper_manager_flutter: ^1.0.1
+  # iOS (and as a fallback): saves an image into the Photos library,
+  # since iOS has no public API to set wallpaper programmatically.
   gal: ^2.3.3
 
 dev_dependencies:
@@ -58,7 +69,6 @@ dev_dependencies:
 
 # The following section is specific to Flutter packages.
 flutter:
-
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
