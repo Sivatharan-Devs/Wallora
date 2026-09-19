@@ -52,6 +52,7 @@ dependencies:
   # iOS (and as a fallback): saves an image into the Photos library,
   # since iOS has no public API to set wallpaper programmatically.
   gal: ^2.3.3
+  shared_preferences: ^2.5.5
 
 dev_dependencies:
   flutter_test:
