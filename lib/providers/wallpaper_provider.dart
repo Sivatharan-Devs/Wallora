@@ -15,8 +15,7 @@ enum _FetchMode { curated, search }
 class WallpaperProvider extends ChangeNotifier {
   final ApiService _apiService;
 
-  WallpaperProvider({required ApiService apiService})
-    : _apiService = apiService;
+  WallpaperProvider({required this._apiService});
 
   final List<WallpaperModel> _wallpapers = [];
   ViewState _state = ViewState.idle;
