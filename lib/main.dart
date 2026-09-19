@@ -7,6 +7,8 @@ import 'providers/wallpaper_provider.dart';
 import 'services/api_service.dart';
 import 'services/onboarding_service.dart';
 import 'screens/splash_screen.dart';
+import 'screens/home_screen.dart';
+import 'utils/relaunch_guard.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -17,13 +19,26 @@ Future<void> main() async {
   // on them is built.
   final prefs = await SharedPreferences.getInstance();
 
-  runApp(MyApp(onboardingService: OnboardingService(prefs)));
+  // True only when the app is restarting right after a wallpaper change.
+  final skipSplash = await RelaunchGuard.consume();
+
+  runApp(
+    MyApp(
+      onboardingService: OnboardingService(prefs),
+      skipSplash: skipSplash,
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
   final OnboardingService onboardingService;
+  final bool skipSplash;
 
-  const MyApp({super.key, required this.onboardingService});
+  const MyApp({
+    super.key,
+    required this.onboardingService,
+    this.skipSplash = false,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +67,9 @@ class MyApp extends StatelessWidget {
           brightness: Brightness.dark,
           useMaterial3: true,
         ),
-        home: const SplashScreen(),
+        home: skipSplash && onboardingService.hasSeenOnboarding
+            ? const HomeScreen()
+            : const SplashScreen(),
       ),
     );
   }

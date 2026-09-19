@@ -47,7 +47,10 @@ class _WallpaperSearchBarState extends State<WallpaperSearchBar> {
           prefixIcon: const Icon(Icons.search),
           suffixIcon: _controller.text.isEmpty
               ? null
-              : IconButton(icon: const Icon(Icons.close), onPressed: _clear),
+              : IconButton(
+                  icon: const Icon(Icons.close),
+                  onPressed: _clear,
+                ),
           filled: true,
           contentPadding: const EdgeInsets.symmetric(vertical: 0),
           border: OutlineInputBorder(

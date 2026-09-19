@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
+import 'package:wallora/utils/relaunch_guard.dart';
 import 'package:wallpaper_manager_flutter/wallpaper_manager_flutter.dart';
 import 'package:gal/gal.dart';
 
@@ -38,6 +39,9 @@ class WallpaperService {
         WallpaperTarget.lock => WallpaperManagerFlutter.lockScreen,
         WallpaperTarget.both => WallpaperManagerFlutter.bothScreens,
       };
+      if (target != WallpaperTarget.lock) {
+        await RelaunchGuard.arm();
+      }
       final ok = await _manager.setWallpaper(file, location);
       if (!ok) {
         throw Exception('The system declined to set the wallpaper.');
