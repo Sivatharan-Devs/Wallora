@@ -31,11 +31,33 @@ class ApiService {
   ApiService({required this._apiKey, http.Client? client})
     : _client = client ?? http.Client();
 
-  Future<List<WallpaperModel>> fetchCurated({required int page}) async {
+  /// The Pexels "curated" feed — a general, non-search default feed.
+  Future<List<WallpaperModel>> fetchCurated({required int page}) {
     final uri = Uri.parse(
       '${ApiConstants.baseUrl}/curated?per_page=${ApiConstants.perPage}&page=$page',
     );
+    return _fetchPhotos(uri);
+  }
 
+  /// Search Pexels for [query] — used for both the search bar and for
+  /// category chips, since a category is really just a canned query.
+  Future<List<WallpaperModel>> search({
+    required String query,
+    required int page,
+  }) {
+    final uri = Uri.parse(
+      '${ApiConstants.baseUrl}/search'
+      '?query=${Uri.encodeQueryComponent(query)}'
+      '&per_page=${ApiConstants.perPage}&page=$page',
+    );
+    return _fetchPhotos(uri);
+  }
+
+  /// Shared request + error-handling logic for both endpoints above.
+  /// Written once here instead of copy-pasted into fetchCurated() AND
+  /// search() — if Pexels changes their error format, there's exactly
+  /// one place to fix it, not two that can silently drift apart.
+  Future<List<WallpaperModel>> _fetchPhotos(Uri uri) async {
     late http.Response response;
     try {
       response = await _client
@@ -48,14 +70,9 @@ class ApiService {
     } on http.ClientException {
       throw const ApiException('Could not reach the server. Please try again.');
     } catch (_) {
-      // Catches timeouts and anything else unexpected — we'd rather show
-      // a generic message than let a raw exception crash the widget tree.
       throw const ApiException('Something went wrong. Please try again.');
     }
 
-    // Check status codes BEFORE trying to decode the body — jsonDecode()
-    // on an error page's HTML (or an empty body) throws a confusing
-    // FormatException instead of telling the user what actually happened.
     switch (response.statusCode) {
       case 200:
         break;
