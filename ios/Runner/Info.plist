@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>This app saves wallpapers to your Photos library so you can set them from Settings.</string>
+	<string>Wallora saves wallpapers to your Photos so you can set them from Settings.</string>
 	<key>CADisableMinimumFrameDurationOnPhone</key>
 	<true/>
 	<key>CFBundleDevelopmentRegion</key>
